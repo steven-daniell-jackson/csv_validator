@@ -282,15 +282,6 @@ if (!empty($GLOBALS['product_code_array'])){
 
 		if ($arrayCount > 0) {
 
-			// Conditional - Remove Case formatting from SEO fields
-			if ($field_name == 'SEO name'){
-				$textFormat = $field_name;
-				// echo $textFormat . "<br>";
-
-				$arrayCount -= 1;
-			} else {
-
-
 				// Case Sensitivy checker. Concatanates error message and reports all issues.
 				if ($textFormat != $field_name) {
 
@@ -299,7 +290,6 @@ if (!empty($GLOBALS['product_code_array'])){
 
 					 // $GLOBALS['error_message'] = $field_name;
 					$GLOBALS['error_message'] = $GLOBALS['error_message'] . '&nbsp;"' . $field_name. '" => '. $textFormat . '<br/>';
-				}
 
 				$arrayCount -= 1;
 			}
