@@ -43,8 +43,8 @@ Template Part: ALL VALID
 <?php if ($template_part == "success"): ?>
 
 	<div class="col-md-12 text-center">
-		<span style=\"color:green;\">SUCCESS: All fields are valid</span>
-		<span style=\"color:green;\">Your Field values have been verified and can be uploaded without error</span>
+		<span style="color:green;">SUCCESS: All fields are valid</span>
+		<span style="color:green;">Your Field values have been verified and can be uploaded without error</span>
 	</div>
 
 <?php 

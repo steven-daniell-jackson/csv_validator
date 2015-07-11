@@ -227,41 +227,48 @@ function product_field_checker ($field_names, $product_validation_fields) {
 		//Capitalizes the field
 		$textFormat = ucfirst(strtolower($field_names[$found]));
 
-if (!empty($GLOBALS['product_code_array'])){
+		if (!empty($GLOBALS['product_code_array'])){
+
 
 		// Compares the values and displays different errors depending on the issue
-		if ($textFormat != $field_names[$found] ) {
+			if ($textFormat != $field_names[$found] ) {
 
-			if ($textFormat != $requiredField){
+
+
+				if ($textFormat != $requiredField){
 
 				//If the required Field does not exist in the array. Display error 
-				$GLOBALS['error_message'] = "ERROR: \"". $requiredField ."\" is a required field in CS Cart. Please add it";
+					$GLOBALS['error_message'] = "ERROR: \"". $requiredField ."\" is a required field. Please add it";
 
 
 				//If file exists then Delete file.
-				if (file_exists($GLOBALS['filePath'])) {
-					unlink($GLOBALS['filePath']);
-				}		
+					if (file_exists($GLOBALS['filePath'])) {
+						unlink($GLOBALS['filePath']);
+
+					}		
 
 				// Load invalid field template part
-				$template_part = "invalid_field";
-				die(include ('template_part.php'));
+					$template_part = "invalid_field";
+					die(include ('template_part.php'));
 
-			} else {
+				} else {
 
 
 				//If the required Field does exist in the array but case sensitivity is incorrect. Display error 
-				$GLOBALS['error_message'] = "ERROR: \"". $field_names[$found] ."\" Has the incorrect case structure<br>It should be \"" . $requiredField ."\"<br>
-				Please correct  this and upload your csv again";
+					$GLOBALS['error_message'] = "ERROR: \"". $field_names[$found] ."\" Has the incorrect case structure<br>It should be \"" . $requiredField ."\"<br>
+					Please correct  this and upload your csv again";
 
 				//If file exists then Delete file.
-				if (file_exists($GLOBALS['filePath'])) {
-					unlink($GLOBALS['filePath']);
-				}		
+					if (file_exists($GLOBALS['filePath'])) {
+						unlink($GLOBALS['filePath']);
+
+					}		
 
 				// Load invalid field template part
-				$template_part = "invalid_field";
-				die(include ('template_part.php'));
+					$template_part = "invalid_field";
+					die(include ('template_part.php'));
+
+				}
 
 			}
 
@@ -269,7 +276,6 @@ if (!empty($GLOBALS['product_code_array'])){
 
 	}
 
-}
 
 
 
@@ -280,39 +286,83 @@ if (!empty($GLOBALS['product_code_array'])){
 		$textFormat = ucfirst(strtolower($field_name));
 
 
-		if ($arrayCount > 0) {
-
-				// Case Sensitivy checker. Concatanates error message and reports all issues.
-				if ($textFormat != $field_name) {
-
-					// Case sensitivity flag
-					$caseSensitivityErrorChecker = true;
-
-					 // $GLOBALS['error_message'] = $field_name;
-					$GLOBALS['error_message'] = $GLOBALS['error_message'] . '&nbsp;"' . $field_name. '" => '. $textFormat . '<br/>';
-
-				$arrayCount -= 1;
-			}
 
 
-			//Validator to compare field names to the current available CS Cart list
-			if (!in_array($textFormat, $product_validation_fields)) {
 
+		//Validator to compare field names to the current available CS Cart list
+		if (!in_array($textFormat, $product_validation_fields)) {
+
+			
 				// Error reporting
-				// If an error is found. Return  Error message	
-				$warning = "ERROR: \"$field_name\" is not a valid field in CS Cart.";
+				// If an error is found. Return  Error message	on all instances of the error occuring
+			foreach ($field_names as $field_name) {
 
-				$GLOBALS['error_message'] = $warning;
+				if (!in_array($field_name, $product_validation_fields)) {
+					
+					//  Used for fields with all Capitals in the field name
+					// if ($field_name === 'SEO name'){
+					// 	$textFormat = $field_name;
 
-				// Load invalid field template part
-				$template_part = "invalid_field";
-				include ('template_part.php');
+
+					// }  else {
+
+						$warning = "ERROR: \"$field_name\" is not a valid field. <br>";
+
+						$GLOBALS['error_message'] = $GLOBALS['error_message'] . $warning;
+
+
+			//Delete file
+			if (file_exists($GLOBALS['filePath'])) {
+				unlink($GLOBALS['filePath']);
+
+			}	
+
+
+					// }
+
+					
+				}
+
+
 
 			}
 
+			//Load invalid field template part and kill page
+			$template_part = "invalid_field";
+			die(include ('template_part.php'));	
 
-		}  //End if search function
+
+		
+
+
+
+		} else {
+
+
+		// Conditional - Remove Case formatting from any Capital fields
+			// Case Sensitivy checker. Concatanates error message and reports all issues.
+			if ($textFormat != $field_name) {
+
+
+				// Case sensitivity flag
+				$caseSensitivityErrorChecker = true;
+
+				// $GLOBALS['error_message'] = $field_name;
+				$GLOBALS['error_message'] = $GLOBALS['error_message'] . '<span style="color:orange">Case Sensitivy Issue Detected: ' . '&nbsp;"' . $field_name. '" should be "'. $textFormat . '"</span><br/>';
+		
+
+
+
+			} 
+
+		}
+
+
+		
+
 } //End ForEach loop
+
+
 
 
 
@@ -326,11 +376,17 @@ if ($caseSensitivityErrorChecker == false) {
 
 } else {
 
+
+			//Delete file
+			if (file_exists($GLOBALS['filePath'])) {
+				unlink($GLOBALS['filePath']);
+
+			}	
+
 	// Load template part conditional "case_sensitivity" if everything is successful
 	$template_part = "case_sensitivity";
 	include ('template_part.php');
 }
-
 
 
 } // End product_field_checker function

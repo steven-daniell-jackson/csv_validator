@@ -12,26 +12,25 @@ Based off my original CS Cart Product field validator
 -->
 
 
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>CSV Import Script - Steven Jacskson</title>
+<?php 
+// Include inc/header.php
+include ("inc/header.php"); ?>
 
 
-<!-- Stylesheets -->
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/custom.css">
+<header id="header" class="col-md-12">
 
 
-</head>
-<body>
+<div class="row">
+
+<?php // Optional Company Branding for client visual?>
+<div class="col-md-6"><img src="img/CompanyBranding.png" class="img-responsive"></img></div>
+<div class="col-md-6"><h1>CSV Field Verification</h1></div>
+	
+
+</div>
 
 
-<div class="container">
 
-<header id="header" class="col-md-12 text-center">
-	<h1>CSV Field Verification</h1>
 </header><!-- /header -->
 
 
